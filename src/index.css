@@ -1,0 +1,272 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* --- CSS VARIABLES (THEME) --- */
+:root {
+  --primary: #4f46e5;       /* Indigo */
+  --primary-hover: #4338ca;
+  --secondary: #f43f5e;     /* Rose */
+  --bg-color: #f3f4f6;      /* Light Gray */
+  --surface: rgba(255, 255, 255, 0.9); /* Slightly transparent white for cards */
+  --text-main: #1f2937;
+  --text-muted: #6b7280;
+  --radius-lg: 20px;
+  --radius-md: 12px;
+  --shadow-soft: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+  --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+  --glass-bg: rgba(255, 255, 255, 0.75);
+}
+
+/* --- RESET & GLOBAL --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  /* 🚀 NEW: Premium Shopping Background with a Frosted Overlay */
+  background-color: var(--bg-color);
+  background-image: 
+    linear-gradient(rgba(243, 244, 246, 0.75), rgba(255, 255, 255, 0.95)), 
+    url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2500&auto=format&fit=crop');
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  
+  color: var(--text-main);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { font-weight: 600; color: var(--text-main); }
+.page-title { text-align: center; margin: 40px 0 30px; font-size: 2.2rem; letter-spacing: -0.5px; }
+
+/* --- GLASSMORPHISM NAVBAR --- */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px); /* The frosted glass effect */
+  -webkit-backdrop-filter: blur(16px);
+  padding: 15px 5%;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(255,255,255,0.4);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.navbar h1 {
+  font-size: 1.8rem;
+  background: linear-gradient(135deg, var(--primary), #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  cursor: pointer;
+  margin: 0;
+}
+
+.nav-buttons { display: flex; gap: 12px; }
+
+/* --- HERO BANNER --- */
+.hero-banner {
+  margin: 30px 5%;
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.9) 0%, rgba(192, 38, 211, 0.9) 100%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: var(--radius-lg);
+  padding: 50px 30px;
+  text-align: center;
+  color: white;
+  box-shadow: var(--shadow-soft);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.hero-banner h2 { color: white; font-size: 2.5rem; margin-bottom: 10px; }
+.hero-banner p { font-size: 1.1rem; opacity: 0.9; }
+
+/* --- MODERN BUTTONS --- */
+button {
+  padding: 12px 24px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  letter-spacing: 0.3px;
+}
+
+button:active { transform: scale(0.96); } 
+
+.btn-primary { 
+  background: var(--primary); 
+  color: white; 
+  box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.39);
+}
+.btn-primary:hover { background: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(79, 70, 229, 0.23); }
+
+.btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+.btn-outline:hover { background: var(--primary); color: white; }
+
+.btn-danger { background: var(--secondary); color: white; }
+.btn-secondary { background: rgba(229, 231, 235, 0.8); color: var(--text-main); backdrop-filter: blur(5px); }
+.btn-secondary:hover { background: rgba(209, 213, 219, 0.9); }
+
+/* --- PRODUCT GRID & APP CARDS --- */
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  padding: 0 5% 50px;
+  gap: 30px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.card {
+  background: var(--surface);
+  backdrop-filter: blur(10px); /* Blurs the background image behind the card */
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  text-align: center;
+  box-shadow: var(--shadow-soft);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255,255,255,0.5);
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-hover);
+  border-color: rgba(255,255,255,0.8);
+}
+
+.card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  margin-bottom: 20px;
+  background: #f8f9fa; 
+}
+
+.card h3 { font-size: 1.3rem; margin-bottom: 8px; }
+.card p { color: var(--text-muted); font-size: 1.1rem; font-weight: 600; margin-bottom: 20px; flex-grow: 1; }
+.card-actions { display: flex; gap: 10px; justify-content: center; }
+.card-actions button { flex: 1; padding: 10px; }
+
+/* --- INPUTS & FORMS --- */
+.auth-container {
+  width: 100%;
+  max-width: 420px;
+  margin: 80px auto;
+  background: var(--surface);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 40px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-hover);
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.6);
+}
+
+input, select {
+  width: 100%;
+  padding: 14px 18px;
+  margin: 10px 0;
+  border: 1.5px solid rgba(229, 231, 235, 0.8);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.8);
+  transition: all 0.3s ease;
+  color: var(--text-main);
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: white;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+}
+
+/* --- CART & SUMMARY LIST VIEWS --- */
+.list-container { max-width: 800px; margin: 0 auto; padding: 0 20px 40px; }
+.list-item {
+  display: flex;
+  align-items: center;
+  background: var(--surface);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  border-radius: var(--radius-lg);
+  margin-bottom: 15px;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.2s;
+  border: 1px solid rgba(255,255,255,0.4);
+}
+.list-item:hover { transform: scale(1.01); }
+.list-item img { width: 90px; height: 90px; object-fit: cover; border-radius: var(--radius-md); }
+.list-item-details { flex: 1; margin-left: 20px; text-align: left; }
+.list-item-details h3 { margin-bottom: 5px; font-size: 1.2rem;}
+.list-item-details p { color: var(--primary); font-weight: 600; font-size: 1.1rem; margin: 0;}
+.qty-controls { display: flex; align-items: center; gap: 15px; background: rgba(243, 244, 246, 0.7); padding: 5px 15px; border-radius: 30px;}
+.qty-controls button { padding: 5px 12px; background: transparent; color: var(--text-main); font-size: 1.2rem; box-shadow: none;}
+.qty-controls button:hover { color: var(--primary); }
+.total-section { text-align: center; font-size: 1.8rem; font-weight: 700; margin: 20px 0 40px; color: var(--text-main); }
+.center-action { display: flex; justify-content: center; padding-bottom: 40px; }
+
+/* --- SINGLE PRODUCT PAGE --- */
+.product-single { 
+  max-width: 600px; 
+  margin: 40px auto; 
+  background: var(--surface); 
+  backdrop-filter: blur(12px);
+  padding: 30px; 
+  border-radius: var(--radius-lg); 
+  box-shadow: var(--shadow-hover); 
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.5);
+}
+.product-single img { width: 100%; max-height: 350px; object-fit: cover; border-radius: 10px; margin-bottom: 20px; }
+.product-single p.desc { color: var(--text-muted); margin: 15px 0; line-height: 1.6; }
+.product-single p.price { font-size: 1.8rem; font-weight: 700; color: var(--primary); margin-bottom: 20px; }
+.product-actions { display: flex; gap: 15px; justify-content: center; align-items: center; margin-top: 20px;}
+/* --- CUSTOM IN-APP ALERT MODAL --- */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal-box {
+  background: var(--surface);
+  padding: 30px 40px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-hover);
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  border: 1px solid rgba(255,255,255,0.5);
+  animation: slideUp 0.3s ease-out;
+}
+
+.modal-box p { 
+  font-size: 1.1rem; 
+  margin-bottom: 25px; 
+  color: var(--text-main); 
+  font-weight: 500; 
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
