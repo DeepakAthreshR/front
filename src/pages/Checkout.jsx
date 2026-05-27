@@ -8,24 +8,56 @@ export default function Checkout() {
   const [card, setCard] = useState("");
   const [cvv, setCvv] = useState("");
   const [upi, setUpi] = useState("");
+  const [isProcessing, setIsProcessing] = useState(false);
+  
   const navigate = useNavigate();
   const { showAlert } = useAlert();
 
-  const handlePay = () => {
+  const handlePay = async () => {
     if (!address.trim()) return showAlert("Please enter your shipping address");
     if (!payment) return showAlert("Please select a payment method");
 
     if (payment === "card") {
-      if (card.length !== 16) return showAlert("Invalid card number (must be 16 digits)");
-      if (cvv.length !== 3) return showAlert("Invalid CVV (must be 3 digits)");
+      if (card.length !== 16) return showAlert("Invalid card number");
+      if (cvv.length !== 3) return showAlert("Invalid CVV");
     } else if (payment === "upi" && !upi) {
       return showAlert("Please enter your UPI ID");
     }
 
-    // Clear cart and trigger success modal, THEN redirect home
-    localStorage.removeItem("cart");
-    localStorage.removeItem("buyNow");
-    showAlert("Order placed successfully! Thank you for shopping with us.", () => navigate("/"));
+    setIsProcessing(true); // Disable button to prevent double clicks
+
+    // 1. Gather data to send to the database
+    const cartItems = JSON.parse(localStorage.getItem("buyNow")) || [];
+    const userEmail = localStorage.getItem("loggedInUser");
+    const totalAmount = cartItems.reduce((sum, item) => sum + (item.price * (item.qty || 1)), 0);
+
+    const orderData = {
+      userEmail,
+      items: cartItems,
+      totalAmount,
+      shippingAddress: address,
+      paymentMethod: payment
+    };
+
+    try {
+      // 2. Send the data to your Node.js Backend
+      const response = await fetch('http://localhost:5000/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(orderData)
+      });
+
+      if (!response.ok) throw new Error('Payment failed');
+
+      // 3. Clear Cart and Redirect on Success
+      localStorage.removeItem("cart");
+      localStorage.removeItem("buyNow");
+      showAlert("Order placed successfully! Thank you.", () => navigate("/orders"));
+      
+    } catch (error) {
+      showAlert("There was an error processing your order. Please try again.");
+      setIsProcessing(false);
+    }
   };
 
   return (
@@ -63,7 +95,14 @@ export default function Checkout() {
           <input value={upi} onChange={(e) => setUpi(e.target.value)} placeholder="example@upi" />
         )}
 
-        <button className="btn-primary" style={{ width: '100%', marginTop: '20px', padding: '15px' }} onClick={handlePay}>Place Order</button>
+        <button 
+          className="btn-primary" 
+          style={{ width: '100%', marginTop: '20px', padding: '15px' }} 
+          onClick={handlePay}
+          disabled={isProcessing}
+        >
+          {isProcessing ? "Processing..." : "Place Order"}
+        </button>
         <button className="btn-outline" style={{ width: '100%', marginTop: '10px', padding: '15px' }} onClick={() => navigate(-1)}>Cancel</button>
       </div>
     </div>

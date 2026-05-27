@@ -5,10 +5,12 @@ import products from "../data/products";
 export default function Home() {
   const navigate = useNavigate();
 
+  // Redirect to login if not authenticated
   useEffect(() => {
     if (!localStorage.getItem("loggedInUser")) navigate("/login");
   }, [navigate]);
 
+  // Handle immediate purchase
   const buyNow = (product) => {
     localStorage.setItem("buyNow", JSON.stringify([{ ...product, qty: 1 }]));
     navigate("/summary");
@@ -19,12 +21,17 @@ export default function Home() {
       <nav className="navbar">
         <h1 onClick={() => navigate("/")}>ShopFlow</h1>
         <div className="nav-buttons">
+          {/* 🚀 New Orders Button Added Here */}
+          <button className="btn-outline" onClick={() => navigate("/orders")}>📦 Orders</button>
           <button className="btn-outline" onClick={() => navigate("/cart")}>🛒 Cart</button>
-          <button className="btn-secondary" onClick={() => { localStorage.removeItem("loggedInUser"); navigate("/login"); }}>Logout</button>
+          <button className="btn-secondary" onClick={() => { 
+            localStorage.removeItem("loggedInUser"); 
+            navigate("/login"); 
+          }}>Logout</button>
         </div>
       </nav>
 
-      {/* 🚀 This is the Hero Banner that makes it look like a real app! */}
+      {/* 🚀 Hero Banner */}
       <div className="hero-banner">
         <h2>Welcome to ShopFlow</h2>
         <p>Discover our exclusive collection of electronics and premium cosmetics.</p>
